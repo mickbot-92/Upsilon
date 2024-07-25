@@ -41,7 +41,7 @@ android {
     // versionCode major*1000000 + minor*10000 + patch * 100
     def date = new Date()
     versionCode date.format('yyyyMMdd').toInteger()
-    versionName System.getenv('UPSILON_VERSION')
+    versionName 1.0.1-dev
   }
   signingConfigs {
     environment {
