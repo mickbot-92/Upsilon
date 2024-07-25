@@ -16,8 +16,7 @@ buildscript {
     google()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.2.0'
-    classpath 'com.google.gms:google-services:4.2.0'
+    classpath 'com.android.tools.build:gradle:8.5.1'
   }
 }
 
@@ -32,11 +31,12 @@ allprojects {
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 29
+  namespace = "io.github.upsilon.simulator"
+  compileSdkVersion 34
   defaultConfig {
     applicationId "io.github.upsilon.simulator"
-    minSdkVersion 16
-    targetSdkVersion 29
+    minSdkVersion 21
+    targetSdkVersion 33
     def (major, minor, patch) = System.getenv('OMEGA_VERSION').toLowerCase().tokenize('.').collect{it.toInteger()}
     versionCode major*1000000 + minor*10000 + patch * 100
     versionName System.getenv('OMEGA_VERSION')
@@ -77,6 +77,6 @@ android {
 
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
-  implementation "androidx.appcompat:appcompat:1.0.2"
-  implementation "com.google.android.gms:play-services-analytics:16.0.7"
+  implementation "androidx.appcompat:appcompat:1.7.0"
+  implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 }
