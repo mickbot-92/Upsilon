@@ -30,13 +30,13 @@ jobs:
           sudo apt-get install curl git python3 build-essential cmake pkg-config -y
       - name: Get latest gint commit hash
         run: |
-          LATEST_COMMIT_HASH="1fc7290b0931c94d399e0717f656ac87cd0499f7"
+          LATEST_COMMIT_HASH=$(curl --silent https://git.planet-casio.com/api/v1/repos/Lephenixnoir/gint/branches/master | jq -r .commit.id)
           echo "Latest commit hash is: $LATEST_COMMIT_HASH"
           echo "LATEST_COMMIT_HASH=$LATEST_COMMIT_HASH" >> $GITHUB_OUTPUT
         id: get-latest-commit-hash
       - name: Cache gint/fxsdk installation
         id: cache-gint
-        uses: actions/cache@v3
+        uses: actions/cache@main
         with:
           path: |
             ~/.local/*/*
