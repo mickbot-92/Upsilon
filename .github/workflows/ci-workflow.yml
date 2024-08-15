@@ -21,7 +21,7 @@ jobs:
   fxcg:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@main
         with:
           submodules: 'recursive'
       - name: Install dependencies
@@ -36,7 +36,7 @@ jobs:
         id: get-latest-commit-hash
       - name: Cache gint/fxsdk installation
         id: cache-gint
-        uses: actions/cache
+        uses: actions/cache@main
         with:
           path: |
             ~/.local/*/*
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     container: devkitpro/devkitarm:latest
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@main
         with:
           submodules: true
       - run: sudo apt-get update
@@ -107,7 +107,7 @@ jobs:
     runs-on: macOS-latest
     steps:
       - run: brew install numworks/tap/epsilon-sdk
-      - uses: actions/checkout
+      - uses: actions/checkout@main
         with:
           submodules: 'recursive'
       - run: make -j2 PLATFORM=simulator
@@ -122,7 +122,7 @@ jobs:
     runs-on: macOS-latest
     steps:
       - run: brew install numworks/tap/epsilon-sdk
-      - uses: actions/checkout
+      - uses: actions/checkout@main
         with:
           submodules: 'recursive'
       - run: make -j2 PLATFORM=simulator TARGET=ios EPSILON_TELEMETRY=0
