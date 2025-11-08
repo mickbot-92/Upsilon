@@ -9,7 +9,7 @@ import urllib.parse
 # ELF analysis
 
 def loadable_sections(elf_file):
-  objdump_section_headers_pattern = re.compile("^\s+\d+\s+(\.[\w\.]+)\s+([0-9a-f]+)\s+([0-9a-f]+)\s+([0-9a-f]+)\s+([0-9a-f]+)", flags=re.MULTILINE)
+  objdump_section_headers_pattern = re.compile(r"^\s+\d+\s+(\.[\w\.]+)\s+([0-9a-f]+)\s+([0-9a-f]+)\s+([0-9a-f]+)\s+([0-9a-f]+)", flags=re.MULTILINE)
   objdump_output = subprocess.check_output(["arm-none-eabi-objdump", "-h", "-w", elf_file]).decode('utf-8')
   sections = []
   for (name, size, vma, lma, offset) in re.findall(objdump_section_headers_pattern, objdump_output):
