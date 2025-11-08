@@ -1,5 +1,5 @@
 name: Metrics
-on: [pull_request_target, push]
+on: [pull_request_target]
 
 jobs:
   binary-size:
