@@ -8,7 +8,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install build-essential imagemagick libfreetype6-dev libjpeg-dev libpng-dev pkg-config
       - name: Install ARM toolchain
-        uses: sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi
+        run: sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi
       - name: Checkout PR base
         uses: actions/checkout@v5
         with:
