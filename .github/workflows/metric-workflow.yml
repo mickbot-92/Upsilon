@@ -1,5 +1,5 @@
 name: Metrics
-on: [pull_request_target]
+on: [pull_request_target, push]
 
 jobs:
   binary-size:
@@ -8,9 +8,9 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install build-essential imagemagick libfreetype6-dev libjpeg-dev libpng-dev pkg-config
       - name: Install ARM toolchain
-        uses: numworks/setup-arm-toolchain@2020-q2
+        uses: numworks/setup-arm-toolchain@latest
       - name: Checkout PR base
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
           ref: ${{ github.event.pull_request.base.sha }}
@@ -18,7 +18,7 @@ jobs:
       - name: Build base
         run: make -j2 -C base MODEL=n0110 epsilon.elf
       - name: Checkout PR head
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
           ref: ${{ github.event.pull_request.head.sha }}
@@ -29,7 +29,7 @@ jobs:
         id: binary_size
         run: echo "table=$(python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape)" >> $GITHUB_OUTPUT
       - name: Add comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             await  github.rest.issues.createComment({
