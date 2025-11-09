@@ -497,6 +497,7 @@ Here are the main links toward Omega's different websites and repositories, that
 
 ## About Epsilon
 
+
 Upsilon is a fork of Omega, after the project's discontinuation.
 
 Omega is a fork of Epsilon, a high-performance graphing calculator operating system. It includes eight apps that cover the high school mathematics curriculum.
