@@ -28,10 +28,15 @@ jobs:
       - name: Run binary size metrics
         id: binary_size
         run: |
-          table=$(python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape)
-          table="${table//%0A/$'\n'}"
-          echo "$table"
-          echo "table="$table"" >> $GITHUB_OUTPUT
+          {
+            echo 'table<<EOF'
+            python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape
+            echo EOF
+          } >> "$GITHUB_ENV"
+          #table=$(python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape)
+          #table="${table//%0A/$'\n'}"
+          #echo "$table"
+          #echo "table="$table"" >> $GITHUB_OUTPUT
       - name: Add comment
         uses: actions/github-script@v8
         with:
@@ -40,5 +45,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: `${{ steps.binary_size.outputs.table }}`,
+              body: `${{ table }}`,
             });
