@@ -28,8 +28,11 @@ jobs:
       - name: Run binary size metrics
         id: binary_size
         run: |
-          echo -n "table=" >> $GITHUB_OUTPUT
-          python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape >> $GITHUB_OUTPUT
+          generate_stats() {
+            echo -n "table="
+            python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape
+          }
+          generate_stats >> $GITHUB_OUTPUT
       - name: Add comment
         uses: actions/github-script@v8
         with:
