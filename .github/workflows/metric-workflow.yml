@@ -28,17 +28,17 @@ jobs:
       - name: Run binary size metrics
         id: binary_size
         run: |
-          table=$(python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape)
-          table=$(echo "$table" | sed 's/%0A/\n/g' | sed 's/^|/|/' | sed 's/$/|/; s/| |/|/g')
-          echo "$table"
-          echo "table="$table"" >> $GITHUB_OUTPUT
+          echo "table<<EOF" >> $GITHUB_OUTPUT
+          python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
       - name: Add comment
         uses: actions/github-script@v8
         with:
           script: |
-            await  github.rest.issues.createComment({
+            const table = `${{ steps.binary_size.outputs.table }}`;
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: `\`\`\`markdown\n${{ steps.binary_size.outputs.table }}\n\`\`\``,
+              body: `\`\`\`markdown\n${table}\n\`\`\``,
             });
