@@ -36,10 +36,9 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const table = `${{ steps.binary_size.outputs.table }}`;
-            await github.rest.issues.createComment({
+            await  github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: `\`\`\`markdown\n${table}\n\`\`\``,
+              body: `${{ steps.binary_size.outputs.table }}`,
             });
