@@ -40,5 +40,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: `${{ steps.binary_size.outputs.table }}`,
+              body: `\`\`\`markdown\n${{ steps.binary_size.outputs.table }}\n\`\`\``,
             });
