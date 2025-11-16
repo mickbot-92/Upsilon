@@ -27,9 +27,10 @@ jobs:
         run: make -j2 -C head MODEL=n0110 epsilon.elf
       - name: Run binary size metrics
         run: |
+          table="$(python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape)"
           {
             echo 'table<<EOF'
-            echo "${"$(python3 head/build/metrics/binary_size.py base/output/release/device/n0110/epsilon.elf head/output/release/device/n0110/epsilon.elf --labels Base Head --sections .text .rodata .bss .data --custom 'Total (RAM)' .data .bss --custom 'Total (ROM)' .text .rodata .data --escape)"//%0A/$'\n'}"
+            echo "${table//%0A/$'\n'}"
             echo EOF
           } >> "$GITHUB_ENV"
       - name: Add comment
