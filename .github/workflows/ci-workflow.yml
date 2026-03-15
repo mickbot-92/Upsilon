@@ -363,8 +363,6 @@ jobs:
           git push
   windows:
     runs-on: windows-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     defaults:
        run:
          shell: msys2 {0}
@@ -414,8 +412,6 @@ jobs:
           path: output/release/simulator/windows/epsilon.exe
   web:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: numworks/setup-emscripten@master
         with:
@@ -584,3 +580,4 @@ jobs:
 
 env:
   ACCEPT_OFFICIAL_TOS: 1
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
