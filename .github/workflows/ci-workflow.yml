@@ -62,44 +62,5 @@ jobs:
         with:
           name: epsilon-android.apk
           path: output/release/simulator/android/epsilon.apk
-  web:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: numworks/setup-emscripten@master
-        with:
-          sdk: 4.0.22
-      - uses: actions/checkout@v6
-        with:
-          submodules: 'recursive'
-      # Install the Linux toolchin to avoid dependancies issues, but maybe only libpng is needed
-      - run: |
-          sudo apt-get update
-          sudo apt-get install build-essential imagemagick libfreetype6-dev libjpeg-dev libpng-dev pkg-config libxtst-dev
-      - run: make -j2 PLATFORM=simulator TARGET=web
-      - run: make -j2 PLATFORM=simulator TARGET=web test.js
-      - run: node output/release/simulator/web/test.js --headless
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@v6
-        with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/web/epsilon.zip binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
-      - uses: actions/upload-artifact@v7
-        with:
-          name: epsilon-web.zip
-          path: output/release/simulator/web/epsilon.zip
 env:
   ACCEPT_OFFICIAL_TOS: 1
