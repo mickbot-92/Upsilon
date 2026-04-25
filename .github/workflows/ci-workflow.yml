@@ -37,8 +37,8 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
       - run: wget -nv https://dl.google.com/android/repository/android-ndk-r27d-linux.zip
-      - run: unzip -q android-ndk-r21e-linux-x86_64.zip
-      - run: make -j2 PLATFORM=simulator TARGET=android NDK_PATH=./android-ndk-r21e
+      - run: unzip -q android-ndk-r27d-linux.zip
+      - run: make -j2 PLATFORM=simulator TARGET=android NDK_PATH=./android-ndk-r27d
       - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
         uses: actions/checkout@v6
         with:
@@ -65,12 +65,9 @@ jobs:
   web:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          git clone https://github.com/emscripten-core/emsdk.git
-          cd emsdk
-          ./emsdk install 4.0.22
-          ./emsdk activate 4.0.22
-          source emsdk_env.sh
+      - uses: numworks/setup-emscripten@master
+        with:
+          sdk: 4.0.22
       - uses: actions/checkout@v6
         with:
           submodules: 'recursive'
