@@ -55,9 +55,9 @@ SDL_PROC(void, glReadPixels, (GLint, GLint, GLsizei, GLsizei, GLenum, GLenum, GL
 SDL_PROC(void, glScissor, (GLint, GLint, GLsizei, GLsizei))
 SDL_PROC(void, glShaderBinary, (GLsizei, const GLuint *, GLenum, const void *, GLsizei))
 #if __NACL__ || __ANDROID__
-SDL_PROC(void, glShaderSource, (GLuint, GLsizei, const GLchar **, const GLint *))
-#else
 SDL_PROC(void, glShaderSource, (GLuint, GLsizei, const GLchar* const*, const GLint *))
+#else
+SDL_PROC(void, glShaderSource, (GLuint, GLsizei, const GLchar **, const GLint *))
 #endif
 SDL_PROC(void, glTexImage2D, (GLenum, GLint, GLint, GLsizei, GLsizei, GLint, GLenum, GLenum, const void *))
 SDL_PROC(void, glTexParameteri, (GLenum, GLenum, GLint))
