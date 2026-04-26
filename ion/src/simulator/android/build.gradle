@@ -37,7 +37,6 @@ android {
     applicationId "io.github.upsilon.simulator"
     minSdkVersion 21
     targetSdkVersion 33
-    def d=new Date()
     versionCode Instant.now().getEpochSecond().toInteger()
     versionName LocalDate.now().format("yyyyMMdd")+'-'+System.getenv('UPSILON_VERSION')
   }

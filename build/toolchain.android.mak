@@ -9,23 +9,17 @@ endif
 
 NDK_TOOLCHAIN_PATH = $(NDK_PATH)/toolchains/llvm/prebuilt/$(NDK_HOST_TAG)/bin
 
-# No 64 bit device has ever shipped with an API level < 21. Consequently, there
-# is no toolchain for those archs on those API levels. Let's enforce NDK_VERSION
-# at 21 for these archs, and 16 for the others.
-
 ifeq ($(ARCH),armeabi-v7a)
   NDK_TARGET = armv7a-linux-androideabi
-  NDK_VERSION = 21
 else ifeq ($(ARCH),arm64-v8a)
   NDK_TARGET = aarch64-linux-android
-  NDK_VERSION = 21
 else ifeq ($(ARCH),x86)
   NDK_TARGET = i686-linux-android
-  NDK_VERSION = 21
 else ifeq ($(ARCH),x86_64)
   NDK_TARGET = x86_64-linux-android
-  NDK_VERSION = 21
 endif
+
+NDK_VERSION = 21
 
 ifdef NDK_TARGET
 
