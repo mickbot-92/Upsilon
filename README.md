@@ -405,8 +405,8 @@ First, install emsdk :
 ```bash
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
-./emsdk install 1.40.1
-./emsdk activate 1.40.1
+./emsdk install 4.0.22
+./emsdk activate 4.0.22
 source emsdk_env.sh
 ```
 
@@ -447,18 +447,18 @@ You can then put epsilon.3dsx on a SD card to run it from the HBC or use 3dslink
 <summary><b>Android Simulator</b></summary>
 
 Make sure you have JDK 25 installed.
-Then, download the Android toolchain r21e as following :
+Then, download the Android toolchain r27d as following :
 ```
 export ANDROID_HOME=$PWD/android-sdk
 wget -nv https://gitlab.com/fdroid/sdkmanager/-/raw/master/sdkmanager.py
 python3 sdkmanager.py --licenses
-python3 sdkmanager.py --install "ndk-bundle;r21e"
+python3 sdkmanager.py --install "ndk-bundle;r27d"
 ```
 All you have to do is run this command to compile Upsilon.
 ```
 make -j$(nproc) PLATFORM=simulator TARGET=android
 ```
-The compiled file named `epsilon.apk` will be the one to install on the phone from your file manager. Shoudl work on Android 4.1+.
+The compiled file named `epsilon.apk` will be the one to install on the phone from your file manager. Shoudl work on Android 5.
 
 </details>
 

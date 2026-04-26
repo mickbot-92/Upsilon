@@ -398,8 +398,8 @@ D'abord, installez emsdk :
 ```bash
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
-./emsdk install 1.40.1
-./emsdk activate 1.40.1
+./emsdk install 4.0.22
+./emsdk activate 4.0.22
 source emsdk_env.sh
 ```
 
@@ -419,18 +419,18 @@ Le simulateur se trouve dans `output/release/simulator/web/simulator.zip`
 <summary><b>Simulateur Android</b></summary>
 
 Assurez-vous d'avoir JDK 25 d'installé.
-Ensuite, téléchargez la toolchain Android version r21e comme suit :
+Ensuite, téléchargez la toolchain Android version r27d comme suit :
 ```
 export ANDROID_HOME=$PWD/android-sdk
 wget -nv https://gitlab.com/fdroid/sdkmanager/-/raw/master/sdkmanager.py
 python3 sdkmanager.py --licenses
-python3 sdkmanager.py --install "ndk-bundle;r21e"
+python3 sdkmanager.py --install "ndk-bundle;r27d"
 ```
 Il ne vous reste plus qu'à lancer cette commande pour compiler Upsilon.
 ```
 make -j$(nproc) PLATFORM=simulator TARGET=android
 ```
-Le fichier compilé nommé `epsilon.apk` sera celui à installer sur le téléphone depuis votre gestionnaire de fichier. Fonctionne normalement à partir de Android 4.
+Le fichier compilé nommé `epsilon.apk` sera celui à installer sur le téléphone depuis votre gestionnaire de fichier. Fonctionne normalement à partir de Android 5.
 
 </details>
 
