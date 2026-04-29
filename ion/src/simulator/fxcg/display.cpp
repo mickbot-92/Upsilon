@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 
+#include <gint/display-cg.h>
 #include <gint/display.h>
 #include <gint/keyboard.h>
 
