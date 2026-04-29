@@ -8,7 +8,9 @@
 
 #include <stdio.h>
 
+#define GINT_RENDER_RGB 1
 #include <gint/display-cg.h>
+
 #include <gint/display.h>
 #include <gint/keyboard.h>
 
