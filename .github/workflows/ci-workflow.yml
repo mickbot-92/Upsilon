@@ -54,6 +54,7 @@ jobs:
           giteapc install Lephenixnoir/fxsdk:noudisks2 Lephenixnoir/sh-elf-binutils Lephenixnoir/sh-elf-gcc -y
           giteapc install Lephenixnoir/OpenLibm Vhex-Kernel-Core/fxlibc Lephenixnoir/sh-elf-gcc -y
           giteapc install Lephenixnoir/gint -y
+          cp /home/runner/.local/share/fxsdk/sysroot/sh3eb-elf/include/gint/config.h.in /home/runner/.local/share/fxsdk/sysroot/sh3eb-elf/include/gint/config.h
       - name: Add fxsdk to PATH
         run: echo "~/.local/bin" >> $GITHUB_PATH
       - run: make -j2 PLATFORM=simulator TARGET=fxcg
