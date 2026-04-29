@@ -56,5 +56,30 @@ jobs:
           giteapc install Lephenixnoir/gint -y
       - name: Add fxsdk to PATH
         run: echo "~/.local/bin" >> $GITHUB_PATH
+      - run: ls -l /home/runner/.local/share/fxsdk/sysroot/sh3eb-elf/include/gint/config*
+      - run: make -j2 PLATFORM=simulator TARGET=fxcg
+      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
+        uses: actions/checkout@v6
+        with:
+          repository: Yaya-Cout/Upsilon-binfiles
+          ref: 'main'
+          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
+          path: 'binfiles'
+      # TODO: Handle git conflicts using rebase
+      - name: Upload binary files to website
+        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
+        run: |
+          cp -r output/release/simulator/fxcg/epsilon.g3a binfiles/binaries/dev/simulator
+          cd binfiles
+          git add -A
+          git config --global user.email "ci@github.com"
+          git config --global user.name "GitHub Upsilon CI"
+          git pull
+          git commit -m "Update from CI"
+          git push
+      - uses: actions/upload-artifact@v7
+        with:
+          name: epsilon.g3a
+          path: output/release/simulator/fxcg/epsilon.g3a
 env:
   ACCEPT_OFFICIAL_TOS: 1
