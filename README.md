@@ -458,7 +458,7 @@ All you have to do is run this command to compile Upsilon.
 ```
 make -j$(nproc) PLATFORM=simulator TARGET=android
 ```
-The compiled file named `epsilon.apk` will be the one to install on the phone from your file manager. Shoudl work on Android 5.
+The compiled file named `epsilon.apk` will be the one to install on the phone from your file manager. Should work on Android 5.
 
 </details>
 
