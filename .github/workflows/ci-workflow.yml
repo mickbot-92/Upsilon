@@ -56,9 +56,7 @@ jobs:
           giteapc install Lephenixnoir/gint -y
       - name: Add fxsdk to PATH
         run: echo "~/.local/bin" >> $GITHUB_PATH
-      - run: |
-          cp display.h /home/runner/.local/share/fxsdk/sysroot/sh3eb-elf/include/gint/display.h
-          cp display-cg.h /home/runner/.local/share/fxsdk/sysroot/sh3eb-elf/include/gint/display-cg.h
+      - run: cp ion/src/simulator/gint/* $PATH/gint
       - run: make -j2 PLATFORM=simulator TARGET=fxcg
       - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
         uses: actions/checkout@v6
