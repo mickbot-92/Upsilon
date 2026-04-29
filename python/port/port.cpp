@@ -88,7 +88,9 @@ void python_execution_end() {
 #include <gint/gint.h>
 #include <gint/display.h>
 #include <gint/keyboard.h>
-#include "py/mpconfig.h"
+#ifndef STATIC
+#define STATIC static
+#endif
 #endif
 
 #include <stddef.h>
