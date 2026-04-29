@@ -88,6 +88,7 @@ void python_execution_end() {
 #include <gint/gint.h>
 #include <gint/display.h>
 #include <gint/keyboard.h>
+#include "py/mpconfig.h"
 #endif
 
 #include <stddef.h>

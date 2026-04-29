@@ -15,6 +15,8 @@
 #ifndef GINT_DISPLAY_CG
 #define GINT_DISPLAY_CG
 
+#if GINT_RENDER_RGB
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -139,5 +141,7 @@ void gint_vrambackup_show(void);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* GINT_RENDER_RGB */
 
 #endif /* GINT_DISPLAY_CG */
