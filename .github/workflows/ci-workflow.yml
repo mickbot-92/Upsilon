@@ -23,7 +23,7 @@ jobs:
     runs-on: macOS-latest
     steps:
       - run: |
-          brew install freetype imagemagick libpng libusb pkg-config python3
+          brew install imagemagick
           python3 -m venv .venv
           .venv/bin/pip3 install setuptools lz4 pypng stringcase
       - uses: actions/checkout@v6
@@ -60,7 +60,7 @@ jobs:
     runs-on: macOS-latest # macos-14
     steps:
       - run: |
-          brew install freetype imagemagick libpng libusb pkg-config python3
+          brew install imagemagick
           python3 -m venv .venv
           .venv/bin/pip3 install setuptools lz4 pypng stringcase
       - uses: actions/checkout@v6
