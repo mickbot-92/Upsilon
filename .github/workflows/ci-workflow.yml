@@ -17,13 +17,8 @@ on:
         description: 'Run 3DS tests'
         required: true
         default: 'yes'
-      triggerFxcg:
-        description: 'Run fxcg tests'
-        required: true
-        default: 'yes'
 jobs:
-  fxcg: # fxcg build is broken for now, disabling it for now to avoid noise
-    if: github.event.inputs.triggerFxcg == 'yes'
+  fxcg:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
