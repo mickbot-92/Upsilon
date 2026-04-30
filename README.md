@@ -115,7 +115,7 @@ python3 -m venv .venv
 .venv/bin/pip3 install setuptools lz4 pypng stringcase
 ```
 
-and these will install all dependencies.
+and all dependencies will be installed.
 
 <br>
 
@@ -472,7 +472,7 @@ First, install gint and fxsdk along with a cross compiler for the calculator. Th
 Next:
 ```bash
 git clone --recursive https://github.com/UpsilonNumworks/Upsilon.git
-cd Omega
+cd Upsilon
 git checkout upsilon-dev
 make PLATFORM=simulator TARGET=fxcg -j$(nproc)
 ```
