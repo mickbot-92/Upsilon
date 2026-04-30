@@ -106,7 +106,9 @@ nix-env -p gcc libpng libjpeg xorg.libX11 pkg-config freetype xorg.libXext pytho
 Il est recommandé d'utiliser [Homebrew](https://brew.sh/). Une fois installé, utilisez :
 
 ```bash
-brew install numworks/tap/epsilon-sdk
+brew install freetype imagemagick libpng libusb pkg-config python3
+python3 -m venv .venv
+.venv/bin/pip3 install setuptools lz4 pypng stringcase
 ```
 
 Et toutes les dépendances seront installées.

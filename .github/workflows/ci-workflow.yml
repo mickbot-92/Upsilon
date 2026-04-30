@@ -57,7 +57,7 @@ jobs:
           git push
   ios:
     if: github.event.inputs.triggerIos == 'yes' || github.event.inputs.triggerIos == ''
-    runs-on: macos-14
+    runs-on: macOS-latest # macos-14
     steps:
       - run: |
           brew install freetype imagemagick libpng libusb pkg-config python3
