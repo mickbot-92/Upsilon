@@ -9,6 +9,8 @@ endif
 
 NDK_TOOLCHAIN_PATH = $(NDK_PATH)/toolchains/llvm/prebuilt/$(NDK_HOST_TAG)/bin
 
+NDK_VERSION = 21
+
 ifeq ($(ARCH),armeabi-v7a)
   NDK_TARGET = armv7a-linux-androideabi
 else ifeq ($(ARCH),arm64-v8a)
@@ -18,8 +20,6 @@ else ifeq ($(ARCH),x86)
 else ifeq ($(ARCH),x86_64)
   NDK_TARGET = x86_64-linux-android
 endif
-
-NDK_VERSION = 21
 
 ifdef NDK_TARGET
 
