@@ -336,7 +336,7 @@ jobs:
        run:
          shell: msys2 {0}
     steps:
-      - uses: msys2/setup-msys2@main
+      - uses: msys2/setup-msys2@v2
       - uses: actions/checkout@main
         with:
           submodules: 'recursive'
