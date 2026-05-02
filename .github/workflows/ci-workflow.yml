@@ -92,10 +92,11 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install build-essential imagemagick libfreetype6-dev libjpeg-dev libpng-dev pkg-config -y
       - run: yes | sudo dkp-pacman -S --needed devkitARM 3dstools libctru
-      - run: wget https://github.com/3DSGuy/Project_CTR/releases/download/makerom-v0.18.3/makerom-v0.18.3-ubuntu_x86_64.zip
-      - run: unzip makerom-v0.18.3-ubuntu_x86_64.zip
-      - run: rm makerom-v0.18.3-ubuntu_x86_64.zip
-      - run: chmod +x ./makerom
+      - name: Compile makerom from source
+        run: |
+          git clone https://github.com/3DSGuy/Project_CTR.git
+          make -C Project_CTR
+          mv Project_CTR/makerom/bin/makerom .
       - run: echo "PATH=.:$PATH" >> $GITHUB_ENV
       - run: make -j2 PLATFORM=simulator TARGET=3ds
       - run: make -j2 PLATFORM=simulator TARGET=3ds epsilon.cia
@@ -373,7 +374,7 @@ jobs:
       - name: Setup emsdk
         uses: emscripten-core/setup-emsdk@main
         with:
-          version: 4.0.22
+          version: 4.0.22 # TODO: Fix for latest releases of Emscripten
       - uses: actions/checkout@main
         with:
           submodules: 'recursive'
@@ -481,7 +482,7 @@ jobs:
           git push
   ios:
     if: github.event.inputs.triggerIos == 'yes' || github.event.inputs.triggerIos == ''
-    runs-on: macos-14
+    runs-on: macos-14 # TODO: Fix for macos-latest runners
     steps:
       - run: |
           brew install imagemagick
