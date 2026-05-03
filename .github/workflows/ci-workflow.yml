@@ -83,7 +83,7 @@ jobs:
           path: output/release/simulator/fxcg/epsilon.g3a
   nintendo_3ds:
     if: github.event.inputs.trigger3DS == 'yes' || github.event.inputs.trigger3DS == ''
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     container: devkitpro/devkitarm:latest
     steps:
       - uses: actions/checkout@main
