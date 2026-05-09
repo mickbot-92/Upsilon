@@ -1,0 +1,40 @@
+name: Upload Binary
+inputs:
+  file-path:
+    required: true
+  artifact-name:
+    required: false
+  PAT_UPSILON_BINFILES:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - #if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
+      if: ${{ github.repository == 'mickbot-92/Upsilon' }}
+      uses: actions/checkout@v6
+      with:
+        repository: mickbot-92/Upsilon-binfiles
+        ref: 'main'
+        token:  ${{ inputs.PAT_UPSILON_BINFILES }}
+        path: 'binfiles'
+    # TODO: Handle git conflicts using rebase
+    - name: Upload binary files to website
+      #if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
+      if: ${{ github.repository == 'mickbot-92/Upsilon' }}
+      run: |
+        cp -r output/release/simulator/${{ inputs.file-path }} binfiles/binaries/dev/simulator
+        cd binfiles
+        git add -A
+        git config --global user.email "ci@github.com"
+        git config --global user.name "GitHub Upsilon CI"
+        git pull
+        git commit -m "Update from CI"
+        git push
+        cd .. && rm -fr binfiles
+      shell: bash
+    - if: ${{ inputs.artifact-name != '' }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: output/release/simulator/${{ inputs.file-path }}

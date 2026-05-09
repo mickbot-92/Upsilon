@@ -58,29 +58,12 @@ jobs:
         run: echo "~/.local/bin" >> $GITHUB_PATH
       - run: sed -i "/GINT_RENDER_RGB/d" ~/.local/share/fxsdk/sysroot/sh3eb-elf/include/gint/display-cg.h # WORKAROUND
       - run: make -j2 PLATFORM=simulator TARGET=fxcg
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/fxcg/epsilon.g3a binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
-      - uses: actions/upload-artifact@main
-        with:
-          name: epsilon.g3a
-          path: output/release/simulator/fxcg/epsilon.g3a
+          file-path: 'fxcg/epsilon.g3a'
+          artifact-name: 'epsilon.g3a'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
   nintendo_3ds:
     if: github.event.inputs.trigger3DS == 'yes' || github.event.inputs.trigger3DS == ''
     runs-on: ubuntu-24.04-arm
@@ -100,33 +83,18 @@ jobs:
       - run: echo "PATH=.:$PATH" >> $GITHUB_ENV
       - run: make -j2 PLATFORM=simulator TARGET=3ds
       - run: make -j2 PLATFORM=simulator TARGET=3ds epsilon.cia
-      - uses: actions/upload-artifact@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          name: epsilon-3ds.3dsx
-          path: output/release/simulator/3ds/epsilon.3dsx
-      - uses: actions/upload-artifact@main
+          file-path: '3ds/epsilon.3dsx'
+          artifact-name: 'epsilon-3ds.3dsx'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          name: epsilon-3ds.cia
-          path: output/release/simulator/3ds/epsilon.cia
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
-        with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/3ds/epsilon.3dsx output/release/simulator/3ds/epsilon.cia binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
+          file-path: '3ds/epsilon.cia'
+          artifact-name: 'epsilon-3ds.cia'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
   android:
     runs-on: ubuntu-latest
     steps:
@@ -144,29 +112,12 @@ jobs:
       - run: wget -nv https://dl.google.com/android/repository/android-ndk-r27d-linux.zip
       - run: unzip -q android-ndk-r27d-linux.zip
       - run: make -j2 PLATFORM=simulator TARGET=android NDK_PATH=./android-ndk-r27d
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/android/epsilon.apk binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
-      - uses: actions/upload-artifact@main
-        with:
-          name: epsilon-android.apk
-          path: output/release/simulator/android/epsilon.apk
+          file-path: 'android/epsilon.apk'
+          artifact-name: 'epsilon-android.apk'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
   n0100:
     runs-on: ubuntu-24.04-arm
     steps:
@@ -345,29 +296,12 @@ jobs:
       - run: make -j2 PLATFORM=simulator
       - run: make -j2 PLATFORM=simulator test.exe
       - run: cmd /c output\release\simulator\windows\test.exe --headless
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/windows/epsilon.exe binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
-      - uses: actions/upload-artifact@main
-        with:
-          name: epsilon-windows.exe
-          path: output/release/simulator/windows/epsilon.exe
+          file-path: 'windows/epsilon.exe'
+          artifact-name: 'epsilon-windows.exe'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
   web:
     runs-on: ubuntu-24.04-arm
     steps:
@@ -385,29 +319,12 @@ jobs:
       - run: make -j2 PLATFORM=simulator TARGET=web
       - run: make -j2 PLATFORM=simulator TARGET=web test.js
       - run: node output/release/simulator/web/test.js --headless
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/web/epsilon.zip binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
-      - uses: actions/upload-artifact@main
-        with:
-          name: epsilon-web.zip
-          path: output/release/simulator/web/epsilon.zip
+          file-path: 'web/epsilon.zip'
+          artifact-name: 'epsilon-web.zip'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
   linux:
     runs-on: ubuntu-latest
     steps:
@@ -420,29 +337,12 @@ jobs:
       - run: make -j2 PLATFORM=simulator
       - run: make -j2 PLATFORM=simulator test.bin
       - run: output/release/simulator/linux/test.bin --headless
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/linux/epsilon.bin binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
-      - uses: actions/upload-artifact@main
-        with:
-          name: epsilon-linux.bin
-          path: output/release/simulator/linux/epsilon.bin
+          file-path: 'linux/epsilon.bin'
+          artifact-name: 'epsilon-linux.bin'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
   macos:
     if: github.event.inputs.triggerMacos == 'yes' || github.event.inputs.triggerMacos == ''
     runs-on: macOS-latest
@@ -457,29 +357,12 @@ jobs:
       - run: make -j2 PLATFORM=simulator
       - run: make -j2 PLATFORM=simulator ARCH=x86_64 test.bin
       - run: output/release/simulator/macos/x86_64/test.bin --headless
-      - uses: actions/upload-artifact@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          name: epsilon-macos.zip
-          path: output/release/simulator/macos/epsilon.app
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
-        with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/macos/epsilon.app binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
+          file-path: 'macos/epsilon.app'
+          artifact-name: 'epsilon-macos.zip'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
   ios:
     if: github.event.inputs.triggerIos == 'yes' || github.event.inputs.triggerIos == ''
     runs-on: macos-14 # TODO: Fix for macos-latest runners
@@ -493,29 +376,12 @@ jobs:
           submodules: 'recursive'
       - run: make -j2 PLATFORM=simulator TARGET=ios EPSILON_TELEMETRY=0
       - run: make -j2 PLATFORM=simulator TARGET=ios EPSILON_TELEMETRY=0 APPLE_PLATFORM=ios-simulator
-      - uses: actions/upload-artifact@main
+      - name: Upload binary files
+        uses: ./.github/workflows/upload-binary
         with:
-          name: epsilon-ios.ipa
-          path: output/release/simulator/ios/epsilon.ipa
-      - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
-        uses: actions/checkout@main
-        with:
-          repository: Yaya-Cout/Upsilon-binfiles
-          ref: 'main'
-          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
-          path: 'binfiles'
-      # TODO: Handle git conflicts using rebase
-      - name: Upload binary files to website
-        if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
-        run: |
-          cp -r output/release/simulator/ios/epsilon.ipa binfiles/binaries/dev/simulator
-          cd binfiles
-          git add -A
-          git config --global user.email "ci@github.com"
-          git config --global user.name "GitHub Upsilon CI"
-          git pull
-          git commit -m "Update from CI"
-          git push
+          file-path: 'ios/epsilon.ipa'
+          artifact-name: 'epsilon-ios.ipa'
+          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
 
 env:
   ACCEPT_OFFICIAL_TOS: 1
