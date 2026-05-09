@@ -141,9 +141,9 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
-      - run: wget -nv https://dl.google.com/android/repository/android-ndk-r27d-linux.zip
-      - run: unzip -q android-ndk-r27d-linux.zip
-      - run: make -j2 PLATFORM=simulator TARGET=android NDK_PATH=./android-ndk-r27d
+      #- run: wget -nv https://dl.google.com/android/repository/android-ndk-r27d-linux.zip
+      #- run: unzip -q android-ndk-r27d-linux.zip
+      - run: make -j2 PLATFORM=simulator TARGET=android #NDK_PATH=./android-ndk-r27d
       - if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
         uses: actions/checkout@main
         with:
