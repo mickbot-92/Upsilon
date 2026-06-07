@@ -43,6 +43,7 @@ jobs:
       - name: Upload binary files to website
         # if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
         run: |
+          git --version
           cp -r output/release/simulator/windows/epsilon.exe binfiles/binaries/dev/simulator
           cd binfiles
           git add -A
