@@ -25,7 +25,7 @@ public:
 #ifdef _FXCG
   constexpr static size_t k_storageSize = 64400;
 #else
-  constexpr static size_t k_storageSize = 65534;
+  constexpr static size_t k_storageSize = 65012;
 #endif
   static_assert(UINT16_MAX >= k_storageSize, "record_size_t not big enough");
 
