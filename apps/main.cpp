@@ -95,6 +95,8 @@ void ion_main(int argc, const char * const argv[]) {
   Ion::setStackStart((void *)(&stackTop));
 #endif
 
+  Ion::updateSlotInfo();
+
   AppsContainer::sharedAppsContainer()->run();
 }
 

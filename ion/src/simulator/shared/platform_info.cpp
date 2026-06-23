@@ -148,3 +148,5 @@ void * storage_address(){
 const void * Ion::storageAddress() {
   return platform_infos.storage_address();
 }
+
+void Ion::updateSlotInfo() {}
