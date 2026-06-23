@@ -9,6 +9,10 @@
 #error This file expects EPSILON_VERSION to be defined
 #endif
 
+#ifndef OMEGA_VERSION_SHORT
+#error This file expects OMEGA_VERSION_SHORT to be defined
+#endif
+
 #ifndef OMEGA_VERSION
 #error This file expects OMEGA_VERSION to be defined
 #endif
@@ -19,13 +23,18 @@
 
 extern "C" {
   extern void recovery_start();
+  extern void eadk_display_draw_string(const char * text, KDPoint point, bool large_font, KDColor text_color, KDColor background_color);
 }
 namespace Ion {
 extern char staticStorageArea[];
 }
 constexpr void * storageAddress = &(Ion::staticStorageArea);
+
 typedef void (*recoveryStartPointerType)();
 constexpr recoveryStartPointerType recoveryStartPointer = &(recovery_start);
+
+typedef void (*drawStringPointerType)(const char * text, KDPoint point, bool large_font, KDColor text_color, KDColor background_color);
+constexpr drawStringPointerType drawStringPointer = &(eadk_display_draw_string);
 
 class KernelHeader {
 public:
@@ -67,7 +76,9 @@ public:
     m_externalAppsRAMEnd(0xFFFFFFFF),
     m_footer(Magic),
     m_omegaMagicHeader(OmegaMagic),
-    m_omegaVersion{OMEGA_VERSION},
+    m_omegaVersion{OMEGA_VERSION_SHORT},
+    m_drawStringAddress(drawStringPointer),
+    m_padding{"\0\0\0\0\0\0\0"},
 #ifdef OMEGA_USERNAME
     m_username{OMEGA_USERNAME},
 #else
@@ -136,7 +147,9 @@ private:
   uint32_t m_externalAppsRAMEnd;
   uint32_t m_footer;
   uint32_t m_omegaMagicHeader;
-  const char m_omegaVersion[16];
+  const char m_omegaVersion[4];
+  drawStringPointerType m_drawStringAddress;
+  const char m_padding[8];
   const volatile char m_username[16];
   uint32_t m_omegaMagicFooter;
   uint32_t m_upsilonMagicHeader;
@@ -173,8 +186,12 @@ private:
 
 };
 
+const char k_omega_version[16] = {OMEGA_VERSION};
 const char * Ion::omegaVersion() {
-  return k_userlandHeader.omegaVersion();
+  // return k_userlandHeader.omegaVersion();
+  // We don't use the UserlandHeader, as for NWA compatibility it can only
+  // contain the short version
+  return k_omega_version;
 }
 
 const char * Ion::upsilonVersion() {
