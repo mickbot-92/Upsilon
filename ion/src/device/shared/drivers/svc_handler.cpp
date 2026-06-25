@@ -80,6 +80,10 @@ extern "C" void __attribute__((noinline, used)) svcall_handler_c(uint32_t * svc_
       // eadk_display_wait_for_vblank
       Ion::Display::waitForVBlank();
       break;
+    case 23:
+      // eadk_event_get
+      svc_args[0] = Ion::Events::getEvent((int32_t *)svc_args[0]).id();
+      break;
     case 34:
       {
         // eadk_keyboard_scan
