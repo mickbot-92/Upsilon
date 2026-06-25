@@ -170,6 +170,10 @@ bool Controller::handleEvent(Ion::Events::Event event) {
   // TODO: Integrate into home grid, like extapp (Upsilon) external apps
   // TODO: Move this code out of the Home app into something similar to archive.cpp
   if (event == Ion::Events::Pi) {
+    if (GlobalPreferences::sharedGlobalPreferences()->isInExamMode()) {
+      return false;
+    }
+
     typedef void (*entrypoint)();
     // Check if the app header is valid
     if ((*(&_m_externalAppsFlashStart) != 0xDEC0BEBA) || (*(&_m_externalAppsFlashStart + 7) != 0xDEC0BEBA))  {
