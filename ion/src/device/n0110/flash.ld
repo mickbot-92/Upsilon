@@ -54,6 +54,7 @@ SECTIONS {
    * internal flash to the external flash. */
   .text.internal_to_external : {
     *(.text._ZL22jump_to_external_flashv*)
+    *(.text.svcall_handler*) /* The SVC handler must be located in the ISR table which is stored in internal, but depends on lots of external functions. It's only called from external */
   } >INTERNAL_FLASH
 
   /* Use boot routine and required dependencies */
