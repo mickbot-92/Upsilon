@@ -2,6 +2,7 @@
 #include "archive.h"
 #include "extapp_api.h"
 #include "../global_preferences.h"
+#include <ion.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -10,9 +11,6 @@ namespace External {
 namespace NWA {
 
 #ifdef DEVICE
-
-// FIXME: Only use this symbol on N0110 bootloader (doesn't exist on the other targets)
-extern "C" uint32_t _m_externalAppsFlashStart;
 
 bool isSane(const NWAHeader * app) {
   if ((app->m_header != k_appHeaderMagik) || (app->m_footer != k_appHeaderMagik))  {
@@ -39,7 +37,7 @@ const NWAHeader * firstApp() {
     return nullptr;
   }
 
-  const NWAHeader * appHeader = reinterpret_cast<const NWAHeader*>(&_m_externalAppsFlashStart);
+  const NWAHeader * appHeader = reinterpret_cast<const NWAHeader*>(Ion::externalAppsFlashStart());
   return appHeader;
 }
 

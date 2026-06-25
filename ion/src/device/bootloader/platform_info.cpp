@@ -207,3 +207,7 @@ SlotInfo * slotInfo() {
 void Ion::updateSlotInfo() {
   slotInfo()->update();
 }
+
+const uint32_t * Ion::externalAppsFlashStart() {
+  return k_userlandHeader.m_externalAppsFlashStart;
+}

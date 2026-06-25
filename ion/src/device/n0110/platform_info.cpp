@@ -144,3 +144,7 @@ const void * Ion::storageAddress() {
 }
 
 void Ion::updateSlotInfo() {}
+
+const uint32_t * Ion::externalAppsFlashStart() {
+  return nullptr;
+}
