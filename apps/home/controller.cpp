@@ -4,7 +4,6 @@
 #include "../apps_container.h"
 #include "../global_preferences.h"
 #include "../exam_mode_configuration.h"
-#include "nwa.h"
 
 extern "C" {
 #include <assert.h>
@@ -13,6 +12,7 @@ extern "C" {
 #ifdef HOME_DISPLAY_EXTERNALS
 #include "../external/external_icon.h"
 #include "../external/archive.h"
+#include "../external/nwa.h"
 #include <string.h>
 #endif
 
@@ -166,6 +166,7 @@ bool Controller::handleEvent(Ion::Events::Event event) {
     }
   }
 
+  #if HOME_DISPLAY_EXTERNALS
   // Launch NWA app
   // TODO: Integrate into home grid, like extapp (Upsilon) external apps
   if (event == Ion::Events::Pi) {
@@ -179,6 +180,7 @@ bool Controller::handleEvent(Ion::Events::Event event) {
     ((App*)m_app)->redraw();
     return true;
   }
+  #endif
 
   return false;
 }
