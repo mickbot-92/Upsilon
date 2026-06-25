@@ -4,6 +4,7 @@
 #include "../apps_container.h"
 #include "../global_preferences.h"
 #include "../exam_mode_configuration.h"
+#include "nwa.h"
 
 extern "C" {
 #include <assert.h>
@@ -93,7 +94,6 @@ static constexpr Ion::Events::Event home_fast_navigation_events[] = {
     Ion::Events::Zero, Ion::Events::Dot, Ion::Events::EE
 };
 
-extern "C" uint32_t _m_externalAppsFlashStart;
 bool Controller::handleEvent(Ion::Events::Event event) {
   if (event == Ion::Events::OK || event == Ion::Events::EXE) {
     AppsContainer * container = AppsContainer::sharedAppsContainer();
@@ -168,32 +168,14 @@ bool Controller::handleEvent(Ion::Events::Event event) {
 
   // Launch NWA app
   // TODO: Integrate into home grid, like extapp (Upsilon) external apps
-  // TODO: Move this code out of the Home app into something similar to archive.cpp
   if (event == Ion::Events::Pi) {
-    if (GlobalPreferences::sharedGlobalPreferences()->isInExamMode()) {
-      return false;
-    }
+    External::NWA::executeApp(0);
+    ((App*)m_app)->redraw();
+    return true;
+  }
 
-    typedef void (*entrypoint)();
-    // Check if the app header is valid
-    if ((*(&_m_externalAppsFlashStart) != 0xDEC0BEBA) || (*(&_m_externalAppsFlashStart + 7) != 0xDEC0BEBA))  {
-      return false;
-    }
-
-    // Check if the app footer collide with the extapp archive
-    uint32_t * appEnd = (uint32_t *)&_m_externalAppsFlashStart + *(&_m_externalAppsFlashStart + 6);
-    if ((uint32_t)appEnd >= 0x90200000) {
-      // App collide with the extapp archive
-      if (External::Archive::isArchiveHeaderValid()) {
-        // Archive is valid, assume the app is invalid/corrupted (partially
-        // overwritten by Archive data)
-        return false;
-      }
-    }
-
-    uint32_t entrypointOffset = *(&_m_externalAppsFlashStart + 5);
-    uint32_t * entrypointAddress = (uint32_t *)((char *)&_m_externalAppsFlashStart + entrypointOffset + 1);
-    ((entrypoint)entrypointAddress)();
+  if (event == Ion::Events::Sqrt) {
+    External::NWA::executeApp(1);
     ((App*)m_app)->redraw();
     return true;
   }
