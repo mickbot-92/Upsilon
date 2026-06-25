@@ -138,6 +138,11 @@ SECTIONS {
     _stack_start = .;
   } >SRAM
 
+  .externalApps : {
+    . = ALIGN(64K);
+    _m_externalAppsFlashStart = .;
+  } > FLASH
+
   /DISCARD/ : {
     /* exidx and extab are needed for unwinding, which we don't use */
     *(.ARM.exidx*)

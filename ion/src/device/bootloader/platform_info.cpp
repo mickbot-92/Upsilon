@@ -25,6 +25,8 @@ extern "C" {
   #if HOME_DISPLAY_EXTERNALS
   extern uint8_t g_appsContainerStorageRaw[];
   #endif
+
+  extern uint32_t _m_externalAppsFlashStart;
 }
 
 namespace Ion {
@@ -84,7 +86,7 @@ struct UserlandHeader {
   const char m_expectedEpsilonVersion[8];
   void * m_storageAddressRAM;
   size_t m_storageSizeRAM;
-  uint32_t m_externalAppsFlashStart;
+  uint32_t * m_externalAppsFlashStart;
   uint32_t m_externalAppsFlashEnd;
   const uint8_t * m_externalAppsRAMStart;
   const uint8_t * m_externalAppsRAMEnd;
@@ -116,8 +118,8 @@ const UserlandHeader __attribute__((section(".userland_header"), used)) k_userla
   .m_storageAddressRAM = storageAddress,
   .m_storageSizeRAM = Ion::Storage::k_storageSize,
   #if HOME_DISPLAY_EXTERNALS
-  .m_externalAppsFlashStart = 0xFFFFFFFF,
-  .m_externalAppsFlashEnd = 0xFFFFFFFF,
+  .m_externalAppsFlashStart = &_m_externalAppsFlashStart,
+  .m_externalAppsFlashEnd = 0x907FFFFF,
   .m_externalAppsRAMStart = externalAppsRAMStart,
   .m_externalAppsRAMEnd = externalAppsRAMEnd,
   #else
