@@ -49,6 +49,7 @@ jobs:
           git add -A
           git config --global user.email "ci@github.com"
           git config --global user.name "GitHub Upsilon CI"
+          git status
           git pull
           git commit -m "Update from CI"
           git push
