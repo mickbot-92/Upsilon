@@ -296,12 +296,30 @@ jobs:
       - run: make -j2 PLATFORM=simulator
       - run: make -j2 PLATFORM=simulator test.exe
       - run: cmd /c output\release\simulator\windows\test.exe --headless
-      - name: Upload binary files
-        uses: ./.github/workflows/upload-binary
+      - #if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon' }}
+        uses: actions/checkout@main
         with:
-          file-path: 'windows/epsilon.exe'
-          artifact-name: 'epsilon-windows.exe'
-          PAT_UPSILON_BINFILES: ${{ secrets.PAT_UPSILON_BINFILES }}
+          repository: mickbot-92/Upsilon-binfiles # Yaya-Cout/Upsilon-binfiles
+          ref: 'main'
+          token:  ${{ secrets.PAT_UPSILON_BINFILES }}
+          path: 'binfiles'
+      # TODO: Handle git conflicts using rebase
+      - name: Upload binary files to website
+        #if: ${{ github.event_name == 'push' && github.ref_name == 'upsilon-dev' && github.repository == 'UpsilonNumworks/Upsilon'}}
+        run: |
+          cp -r output/release/simulator/windows/epsilon.exe binfiles/binaries/dev/simulator
+          cd binfiles
+          git add -A
+          git config --global user.email "ci@github.com"
+          git config --global user.name "GitHub Upsilon CI"
+          git pull
+          git commit -m "Update from CI"
+          git push
+      - uses: actions/upload-artifact@main
+        with:
+          name: epsilon-windows.exe
+          path: output/release/simulator/windows/epsilon.exe
+
   web:
     runs-on: ubuntu-24.04-arm
     steps:
