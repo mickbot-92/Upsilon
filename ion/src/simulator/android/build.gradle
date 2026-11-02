@@ -16,7 +16,7 @@ buildscript {
     google()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:9.2.0'
+    classpath 'com.android.tools.build:gradle:9.5.0'
   }
 }
 
@@ -80,7 +80,7 @@ android {
 
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
-  implementation "androidx.appcompat:appcompat:1.7.1"
+  implementation "androidx.appcompat:appcompat:1.8.0"
 }
 
 java{toolchain{languageVersion=JavaLanguageVersion.of(25)}}
