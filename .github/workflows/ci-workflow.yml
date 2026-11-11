@@ -122,7 +122,7 @@ jobs:
           name: epsilon-android.apk
           path: output/release/simulator/android/epsilon.apk
   n0110:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     steps:
       - run: |
           sudo apt-get update
